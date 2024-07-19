@@ -8,10 +8,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-  <div class="p-6 bg-white rounded-lg shadow-lg">
+  <div class="p-6 bg-white rounded-lg shadow-lg w-full max-w-md">
     <h1 class="text-2xl font-bold mb-4">Contact Picker Example</h1>
-    <button id="pick-contacts" class="btn btn-primary mb-4">Pick Contacts</button>
-    <ul id="contacts-list" class="list-disc pl-5">
+    <button id="pick-contacts" class="btn btn-primary mb-2 w-full">Pick Contacts</button>
+    <button id="select-all" class="btn btn-secondary mb-4 w-full">Select All Contacts</button>
+    <ul id="contacts-list" class="list-none">
       <!-- Les contacts sélectionnés seront affichés ici -->
     </ul>
   </div>
@@ -26,17 +27,27 @@
       }
     }
 
+    function selectAllContacts() {
+      alert('Selecting all contacts is not supported by the Contact Picker API.');
+    }
+
     function displayContacts(contacts) {
       const contactsList = document.getElementById('contacts-list');
       contactsList.innerHTML = '';
       contacts.forEach(contact => {
         const listItem = document.createElement('li');
-        listItem.textContent = `Name: ${contact.name[0]}, Email: ${contact.email ? contact.email[0] : 'N/A'}, Tel: ${contact.tel ? contact.tel[0] : 'N/A'}`;
+        listItem.className = 'p-2 bg-gray-100 rounded-lg shadow mb-2';
+        listItem.innerHTML = `
+          <p><strong>Name:</strong> ${contact.name[0]}</p>
+          <p><strong>Email:</strong> ${contact.email ? contact.email[0] : 'N/A'}</p>
+          <p><strong>Tel:</strong> ${contact.tel ? contact.tel[0] : 'N/A'}</p>
+        `;
         contactsList.appendChild(listItem);
       });
     }
 
     document.getElementById('pick-contacts').addEventListener('click', pickContacts);
+    document.getElementById('select-all').addEventListener('click', selectAllContacts);
   </script>
 </body>
 </html>
