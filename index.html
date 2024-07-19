@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Picker Example</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="p-6 bg-white rounded-lg shadow-lg">
+    <h1 class="text-2xl font-bold mb-4">Contact Picker Example</h1>
+    <button id="pick-contacts" class="btn btn-primary mb-4">Pick Contacts</button>
+    <ul id="contacts-list" class="list-disc pl-5">
+      <!-- Les contacts sélectionnés seront affichés ici -->
+    </ul>
+  </div>
+
+  <script>
+    async function pickContacts() {
+      try {
+        const contacts = await navigator.contacts.select(['name', 'email', 'tel'], { multiple: true });
+        displayContacts(contacts);
+      } catch (error) {
+        console.error('Error picking contacts:', error);
+      }
+    }
+
+    function displayContacts(contacts) {
+      const contactsList = document.getElementById('contacts-list');
+      contactsList.innerHTML = '';
+      contacts.forEach(contact => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `Name: ${contact.name[0]}, Email: ${contact.email ? contact.email[0] : 'N/A'}, Tel: ${contact.tel ? contact.tel[0] : 'N/A'}`;
+        contactsList.appendChild(listItem);
+      });
+    }
+
+    document.getElementById('pick-contacts').addEventListener('click', pickContacts);
+  </script>
+</body>
+</html>
